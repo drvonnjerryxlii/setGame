@@ -1,4 +1,7 @@
-## Jeri's Set Clone Project ##
+## Jeri's [Set Clone][sg] Project ##
+
+[sg]: http://www.setgame.com/
+
 - - -
 
 ### Current Features ###
