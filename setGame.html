@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Jeri's Set Clone</title>
+        <script type="text/javascript" src="setGame.js"></script>
+        <link rel="stylesheet" type="text/css" href="setGame.css">
+    </head>
+    <body>
+    <table>
+        <tr>
+            <td class="board">
+
+<!-- I feel like this could be easily generated if I were using PHP. -->
+
+    <p><canvas class="hidden" id="table16" height="150" width="100" onclick="toggle('table16');"></canvas>
+    <canvas class="hidden" id="table1" height="150" width="100" onclick="toggle('table1');"></canvas>
+    <canvas class="hidden" id="table4" height="150" width="100" onclick="toggle('table4');"></canvas>
+    <canvas class="hidden" id="table7" height="150" width="100" onclick="toggle('table7');"></canvas>
+    <canvas class="hidden" id="table10" height="150" width="100" onclick="toggle('table10');"></canvas>
+    <canvas class="hidden" id="table13" height="150" width="100" onclick="toggle('table13');"></canvas>
+
+    <canvas class="hidden" id="table17" height="150" width="100" onclick="toggle('table17');"></canvas>
+    <canvas class="hidden" id="table2" height="150" width="100" onclick="toggle('table2');"></canvas>
+    <canvas class="hidden" id="table5" height="150" width="100" onclick="toggle('table5');"></canvas>
+    <canvas class="hidden" id="table8" height="150" width="100" onclick="toggle('table8');"></canvas>
+    <canvas class="hidden" id="table11" height="150" width="100" onclick="toggle('table11');"></canvas>
+    <canvas class="hidden" id="table14" height="150" width="100" onclick="toggle('table14');"></canvas>
+
+    <canvas class="hidden" id="table18" height="150" width="100" onclick="toggle('table18');"></canvas>
+    <canvas class="hidden" id="table3" height="150" width="100" onclick="toggle('table3');"></canvas>
+    <canvas class="hidden" id="table6" height="150" width="100" onclick="toggle('table6');"></canvas>
+    <canvas class="hidden" id="table9" height="150" width="100" onclick="toggle('table9');"></canvas>
+    <canvas class="hidden" id="table12" height="150" width="100" onclick="toggle('table12');"></canvas>
+    <canvas class="hidden" id="table15" height="150" width="100" onclick="toggle('table15');"></canvas></p>
+            </td>
+            <td class="options">
+    <button class="yes" id="startNewGame" onclick="startNewGame();"><font size="4">Start new game.</font></button>
+    <button class="yes" id="set" onclick="set();"><font size="10">Set!</font></button>
+    <button class="yes" id="deselectAll" onclick="toggleNoSelected();"><font size="4">Deselect all!</font></button>
+    <button class="yes" id="hint" onclick="hint();"><font size="8">Hint?</font></button>
+    <button class="no" id="colors" onclick="userSelectColors();"><font size="6">COLORS</font></button>
+    <p><canvas class="match" id="playerMatch" height="30" width="200"></canvas></p>
+            </td>
+        </tr>
+        <tr>
+            <td class=" colspan="2" align="center">
+    <p><canvas class="match" id="message" height="20" width="400"></canvas></p>
+    <p><canvas class="match" id="availableMatch" height="20" width="400"></canvas></p>
+            </td>
+        </tr>
+    </table>
+    </body>
+</html>
+<!-- This has been a Dr. Vonn Jerry XLII production.-->
