@@ -39,7 +39,6 @@ var errMsg = function(message) {
     console.log("Eroor! "+message);
 };
 
-<<<<<<< HEAD
 var plyrMsg = function(message) {
     boxMsg(message);
 };
@@ -56,13 +55,6 @@ var boxMsg = function(message) {
         ctx.fillText(message, 10, 15, 380);
     };
 };
-=======
-var hintMsg = function(message) {
-    console.log(message);
-};
-
-
->>>>>>> master
 
 
 // code to 'generate' & shuffle deck, then draw 12 cards
@@ -425,7 +417,6 @@ var resetEveryone = function() {
     availableSets = [];
     availableSetsLocs = [];
     availableSetsHints = [];
-<<<<<<< HEAD
     if (deck.length===0) {
         plyrMsg("Hey, there are no cards left in the deck! You've almost won!");
     };
@@ -433,16 +424,10 @@ var resetEveryone = function() {
 
 var startNewGame = function() {
     alert("Hey! I just wanted to warn you that I haven't worked on making the right sort of stripey card that the original game has. When you see a card that looks darker, that's the the third shade. It's a gradient.");
-=======
-};
-
-var startNewGame = function() {
->>>>>>> master
     shuffleDeck();
     resetEveryone();
     drawEveryone();
     var button = document.getElementById("startNewGame");
-<<<<<<< HEAD
         removeClass(button,"yes");
         addClass(button,"no");
     button = document.getElementById("set");
@@ -454,10 +439,6 @@ var startNewGame = function() {
     button = document.getElementById("hint");
         removeClass(button,"no");
         addClass(button,"yes");
-=======
-    removeClass(button,"yes");
-    addClass(button,"no");
->>>>>>> master
 };
 
 var userSelectColors = function() {
@@ -682,11 +663,7 @@ var set = function() {
     console.log(maybeSet.length);
     console.log(maybeSet);
     if (maybeSet.length != 3) {
-<<<<<<< HEAD
         plyrMsg("That doesn't look like three cards to me! A set must have three cards.");
-=======
-        errMsg("set: not 3 cards. jou must 3 cards a set!");
->>>>>>> master
         maybeSet = [];
     } else {
         var card1 = cards[maybeSet[0].card];
@@ -716,11 +693,7 @@ var hintCount = 0;
 
 var hint = function() {
     if (deck===0 && table===0) {
-<<<<<<< HEAD
         plyrMsg("You need to start a game before I can give you hints!");
-=======
-        hintMsg("You need to start a game before I can give you hints!");
->>>>>>> master
         return;
     };
     if (hintCount===0) {
@@ -740,15 +713,9 @@ var hint = function() {
         };
         if (availableSets.length === 0) {
             if (deck===0 && table>0) {
-<<<<<<< HEAD
                 plyrMsg("There are no sets remaining. You win the game!");
             } else {
                 plyrMsg("There are no sets! I will add three cards to the table for you.");
-=======
-                hintMsg("There are no sets remaining. You win the game!");
-            } else {
-                hintMsg("There are no sets! I will add three cards to the table for you.");
->>>>>>> master
                 for (var i=3; i > 0; i--) {
                     table.push(deck.shift());
                 };
@@ -767,22 +734,14 @@ var hint = function() {
     } else if (hintCount===1) {
         if (availableSetsHints.length>0) {
             var hint2 = Math.floor(Math.random()*availableSetsHints.length);
-<<<<<<< HEAD
             plyrMsg(availableSetsHints[hint2]);
-=======
-            hintMsg(availableSetsHints[hint2]);
->>>>>>> master
             availableSetsHints.splice(hint2,1);
         } else if (availableSetsLocs.length>0) {
             var hint3 = Math.floor(Math.random()*availableSetsLocs.length);
             toggle("table"+availableSetsLocs[hint3],true);
             availableSetsLocs.splice(hint3,1);
         } else {            
-<<<<<<< HEAD
             plyrMsg("Hey, I've already selected a set for you!");
-=======
-            hintMsg("Hey, I've already selected a set for you!");
->>>>>>> master
         };
     };
 };

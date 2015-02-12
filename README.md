@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ### Jeri's Set Clone Project ###
 
 - - -
@@ -12,13 +11,6 @@
 [sg]: http://www.setgame.com/
 [myst]: https://drvonnjerryxlii.github.io/setGame/setGame.html
 [vz]: https://github.com/Vinietskyzilla
-=======
-### Jeri's [Set Clone][sg] Project ###
-
-[sg]: http://www.setgame.com/
-
-- - -
->>>>>>> master
 
 ### Current Features ###
 - Works/looks best on chrome
@@ -32,11 +24,7 @@
   game message & replacing the start new game button.
 
 ### Incomplete & Unstarted Features ###
-<<<<<<< HEAD
 - Computer player (time based + rand? search from opposite end of cards from hint function)
-=======
-- Computer player
->>>>>>> master
 - Multiplayer local? (listen to keyboard & each player has a button that means set?)
 - Multiplayer web?
 - Better color changing options (not just user assigned like now)
