@@ -36,7 +36,12 @@
     <button class="no" id="set" onclick="set();"><font size="10">Set!</font></button>
     <button class="no" id="deselectAll" onclick="toggleNoSelected();"><font size="4">Deselect all!</font></button>
     <button class="no" id="hint" onclick="hint();"><font size="8">Hint?</font></button>
-    <button class="no" id="colors" onclick="userSelectColors();"><font size="6">COLORS</font></button>
+    <button class="no" id="colors" onclick="toggleColors();"><font size="6">Set New Colors</font></button><br />
+    <div id="colorSelections" class="no">
+    <input type="radio" name="colors" id="colorClassic" onclick="changeColors('classic');">Classic colors</input><br />
+    <input type="radio" name="colors" id="colorBlind" onclick="changeColors('redGreenBlind');">Red/Green colorblind-friendly colors</input><br />
+    <input type="radio" name="colors" id="colorJeri" onclick="changeColors('Jeri');">Chef's choice</input><br />
+    <input type="radio" name="colors" id="colorUser" onclick="changeColors();">Pick your own</input><br /></div>
     <p><canvas class="match" id="playerMatch" height="30" width="200"></canvas></p>
             </td>
         </tr>

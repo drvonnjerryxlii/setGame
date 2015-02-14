@@ -1,6 +1,6 @@
 // this is my first real coding project!
-// Thanks to David W for introducing me to canvas & to some great canvas drawing tutorials
-// Thanks to David F for showing me how to do something key-indexy as in the card generator code
+// Thanks to David W/Vinietskyzilla for introducing me to canvas & to some great canvas drawing tutorials
+// Thanks to David F/Davidfstr for showing me how to do something key-indexy as in the card generator code
 
 
 // code to generate cards:
@@ -97,12 +97,37 @@ var drawThree = function(noSetsAvailable) {
 };*/
 
 var color1 = "rgb(200,0,255)"; // purple
-//var color1 = "rgb(20,20,255)"; // royal blue
-//var color2 = "rgb(20,255,0)"; // green
 var color2 = "rgb(20,200,255)"; // lightish blue
-//var color3 = "rgb(255,0,0)"; // red
 var color3 = "rgb(220,200,0)"; // goldy yellow
 var grady = "rgb(60,60,60)"; // dark gray
+
+var changeColors = function(whichScheme) { // maybe it's time to learn case/switch if javascript has?
+    if (whichScheme==="Jeri") { // my preferred color scheme
+        color1 = "rgb(200,0,255)"; // purple
+        color2 = "rgb(20,200,255)"; // lightish blue
+        color3 = "rgb(220,200,0)"; // goldy yellow
+    } else if (whichScheme==="classic") { // the original Set color scheme
+        color1 = "rgb(200,0,255)"; // purple
+        color2 = "rgb(20,255,0)"; // green
+        color3 = "rgb(255,0,0)"; // red
+    } else if (whichScheme==="redGreenBlind") { // a scheme for red/green colorblindness
+        color1 = "rgb(20,20,255)"; // purple == blue
+        color2 = "rgb(255,0,0)"; // green == red
+        color3 = "rgb(220,200,0)"; // yellow
+    } else if (whichScheme==="dark") { // a dark color scheme
+        // body background #444
+        // card background #000
+        // card grady = #200,200,200
+    } else { // the user can pick colors
+        color1 = prompt("Test color1: ");
+        color2 = prompt("Test color2: ");
+        color3 = prompt("Test color3: ");
+    };
+    toggleVisible("colors","no","yes");
+    toggleVisible("colorSelections","yes","no");
+    resetEveryone();
+    drawEveryone();
+};
 
 var solid = function(card,ctx) {
     if (card.color==="color1") {
@@ -427,29 +452,23 @@ var startNewGame = function() {
     shuffleDeck();
     resetEveryone();
     drawEveryone();
-    var button = document.getElementById("startNewGame");
-        removeClass(button,"yes");
-        addClass(button,"no");
-    button = document.getElementById("set");
-        removeClass(button,"no");
-        addClass(button,"yes");
-    button = document.getElementById("deselectAll");
-        removeClass(button,"no");
-        addClass(button,"yes");
-    button = document.getElementById("hint");
-        removeClass(button,"no");
-        addClass(button,"yes");
+    toggleVisible("startNewGame","yes","no");
+    toggleVisible("set","no","yes");
+    toggleVisible("hint","no","yes");
+    toggleVisible("colors","no","yes");
+    toggleVisible("deselectAll","no","yes");
 };
 
-var userSelectColors = function() {
-    color1 = prompt("Test color1: ");
-    color2 = prompt("Test color2: ");
-    color3 = prompt("Test color3: ");
-    resetEveryone();
-    drawEveryone();
+var toggleColors = function() {
+    toggleVisible("colors","yes","no");
+    toggleVisible("colorSelections","no","yes");
 };
 
-// NOW LET'S START INTERACTING WITH THE PLAYER! :)
+var toggleVisible = function(id, classToRemove, classToAdd) {
+    var makeChangeTo = document.getElementById(id);
+    removeClass(makeChangeTo,classToRemove);
+    addClass(makeChangeTo,classToAdd);
+};
 
 var addClass = function(id, classToAdd) {
     var currentClassValue = id.className;
@@ -692,10 +711,6 @@ var toggleHidden = function() {
 var hintCount = 0;
 
 var hint = function() {
-    if (deck===0 && table===0) {
-        plyrMsg("You need to start a game before I can give you hints!");
-        return;
-    };
     if (hintCount===0) {
         for (var i=0; i < table.length-3; i++) {
             for (var j=i+1; j < table.length; j++) {
@@ -712,7 +727,7 @@ var hint = function() {
             if (availableSets.length > 0) break;
         };
         if (availableSets.length === 0) {
-            if (deck===0 && table>0) {
+            if (deck===0) { // !Q y u no werk? console log deck & table length
                 plyrMsg("There are no sets remaining. You win the game!");
             } else {
                 plyrMsg("There are no sets! I will add three cards to the table for you.");
@@ -742,7 +757,13 @@ var hint = function() {
             availableSetsLocs.splice(hint3,1);
         } else {            
             plyrMsg("Hey, I've already selected a set for you!");
+            hintCount++;
         };
+    } else if (hintCount===2) {
+        plyrMsg("No, really. I have already selected a set for you.");
+        hintCount++;
+    } else {
+        set();
     };
 };
 
