@@ -1,4 +1,5 @@
-body { background-color: #ddd; width: 100%; }
+body { width: 100%; background-color: #ddd; }
+body.dark {  background-color: #444; }
 p, table, tr, td, button, canvas, body { padding: 0px; }
 canvas { background-color: #fff; }
 canvas.notSelected { border: 1px solid black; padding: 2px; }
@@ -6,9 +7,11 @@ canvas.playerSelected { border: 3px dotted orange; padding: 0px; }
 canvas.hintSelected { border: 3px dotted black; padding: 0px; }
 canvas.compySelected { border: 3px dotted purple; padding: 0px; }
 canvas.match { border: none; background-color: #ddd; }
-canvas.hidden { background-color: #ddd; }
+canvas.hidden { background-color: #ddd; } /* oh this won't work with dark */
+canvas.dark { background-color: #444; }
 td.board { width: 650px; min-width: 650px; max-width: 650px; } /*Q! why does the internet recommend setting max width to 100%? */
 td.options { width: 200px; text-align: center; }
+button.start { position: fixed; left: 50%; top: 50%; }
 .yes { visibility: visible; }
 .no { visibility: hidden; }
 

@@ -43,6 +43,10 @@ var plyrMsg = function(message) {
     boxMsg(message);
 };
 
+var mobileMsg = function(message) {
+    alert(message);
+};
+
 var boxMsg = function(message) {
     var canvas = document.getElementById("message");
     if (canvas.getContext) { // to overwrite any previous message
@@ -96,27 +100,46 @@ var drawThree = function(noSetsAvailable) {
     };
 };*/
 
+// set default colors & gradients:
 var color1 = "rgb(200,0,255)"; // purple
 var color2 = "rgb(20,200,255)"; // lightish blue
 var color3 = "rgb(220,200,0)"; // goldy yellow
-var grady = "rgb(60,60,60)"; // dark gray
+var gradyLight = "rgb(255,255,255)";
+var gradyDark = "rgb(60,60,60)"; // dark gray
+var grady = gradyDark;
 
 var changeColors = function(whichScheme) { // maybe it's time to learn case/switch if javascript has?
+    var dark = false;
     if (whichScheme==="Jeri") { // my preferred color scheme
+        if (dark===true) {
+            removeClass("body","dark");
+        };
         color1 = "rgb(200,0,255)"; // purple
         color2 = "rgb(20,200,255)"; // lightish blue
         color3 = "rgb(220,200,0)"; // goldy yellow
+        grady = gradyDark;
     } else if (whichScheme==="classic") { // the original Set color scheme
+        if (dark===true) {
+            removeClass("body","dark");
+        };
         color1 = "rgb(200,0,255)"; // purple
         color2 = "rgb(20,255,0)"; // green
         color3 = "rgb(255,0,0)"; // red
-    } else if (whichScheme==="redGreenBlind") { // a scheme for colorblindness
+        grady = gradyDark;
+    } else if (whichScheme==="colorBlind") { // a scheme for colorblindness
+        if (dark===true) {                   // can has David approved?
+            removeClass("body","dark");
+        };
         color1 = "rgb(230,159,0)"; // orange / pink
         color2 = "rgb(0,144,178)"; // blue / still blue
         color3 = "rgb(0,0,0)"; // ALLES IST SCHWARZ
-        grady = "rgb(255,255,255)"; // ALLES IST WEIS
+        grady = gradyLight;
+    } else if (whichScheme==="darkGrad") {
+        grady = gradyDark;
+    } else if (whichScheme==="lightGrad") {
+        grady = gradyLight;
     } else if (whichScheme==="dark") { // a dark color scheme
-        // body background #444
+        addClass("body","dark") // body background #444
         // card background #000
         // card grady = #200,200,200
     } else { // the user can pick colors
@@ -460,6 +483,23 @@ var startNewGame = function() {
     toggleVisible("deselectAll","no","yes");
 };
 
+var youWin = function() {
+    alert("You won the game! I hope you enjoyed it. You are welcome to play again. :)");
+    resetEveryone();
+    for (var i = 18; i > 0; --i) {
+        var toggleMe = document.getElementById("table"+(i));
+        if (toggleMe.className === "notSelected") {
+            removeClass(toggleMe,"notSelected");
+            addClass(toggleMe,"hidden");
+        };
+    };
+    toggleVisible("startNewGame","no","yes");
+    toggleVisible("set","yes","no");
+    toggleVisible("hint","yes","no");
+    toggleVisible("colors","yes","no");
+    toggleVisible("deselectAll","yes","no");
+};
+
 var toggleColors = function() {
     toggleVisible("colors","yes","no");
     toggleVisible("colorSelections","no","yes");
@@ -549,7 +589,7 @@ var toggleNoSelected = function() {
             removeClass(toggleMe,"notSelected");
             addClass(toggleMe,"hidden");
         } else {
-            errMsg("toggleNoSelected toggle >deck.length hidden");
+//            errMsg("toggleNoSelected toggle >deck.length hidden");
         };
     };
 };
@@ -676,12 +716,12 @@ var set = function() {
         var j = document.getElementById("table"+(i+1));
         if (j.className === "playerSelected") {
             maybeSet.push({card:table[i], location:i});
-            console.log("card:table[" + i + "], location: [" + i + "]");
+//            console.log("card:table[" + i + "], location: [" + i + "]");
         };
     };
-    console.log("maybeSet.length:");
-    console.log(maybeSet.length);
-    console.log(maybeSet);
+//    console.log("maybeSet.length:");
+//    console.log(maybeSet.length);
+//    console.log(maybeSet);
     if (maybeSet.length != 3) {
         plyrMsg("That doesn't look like three cards to me! A set must have three cards.");
         maybeSet = [];
@@ -728,8 +768,11 @@ var hint = function() {
             if (availableSets.length > 0) break;
         };
         if (availableSets.length === 0) {
-            if (deck===0) { // !Q y u no werk? console log deck & table length
-                plyrMsg("There are no sets remaining. You win the game!");
+//            console.log("AVAILABLE");
+            if (deck.length===0) {
+  //              console.log("DECK");
+                youWin();
+                return;
             } else {
                 plyrMsg("There are no sets! I will add three cards to the table for you.");
                 for (var i=3; i > 0; i--) {
