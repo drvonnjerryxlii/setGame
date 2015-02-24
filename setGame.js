@@ -110,10 +110,11 @@ var changeColors = function(whichScheme) { // maybe it's time to learn case/swit
         color1 = "rgb(200,0,255)"; // purple
         color2 = "rgb(20,255,0)"; // green
         color3 = "rgb(255,0,0)"; // red
-    } else if (whichScheme==="redGreenBlind") { // a scheme for red/green colorblindness
-        color1 = "rgb(20,20,255)"; // purple == blue
-        color2 = "rgb(255,0,0)"; // green == red
-        color3 = "rgb(220,200,0)"; // yellow
+    } else if (whichScheme==="redGreenBlind") { // a scheme for colorblindness
+        color1 = "rgb(230,159,0)"; // orange / pink
+        color2 = "rgb(0,144,178)"; // blue / still blue
+        color3 = "rgb(0,0,0)"; // ALLES IST SCHWARZ
+        grady = "rgb(255,255,255)"; // ALLES IST WEIS
     } else if (whichScheme==="dark") { // a dark color scheme
         // body background #444
         // card background #000
