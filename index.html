@@ -33,14 +33,15 @@
             </td>
             <td class="options">
     <button class="yes" id="startNewGame" onclick="startNewGame();" style="position: fixed; left: 40%; top: 40%; z-index: 100;"><font size="6">Start new game.</font></button>
-    <button class="no" id="set" onclick="set();"><font size="10">Set!</font></button>
-    <button class="no" id="deselectAll" onclick="toggleNoSelected();"><font size="4">Deselect all!</font></button>
-    <button class="no" id="hint" onclick="hint();"><font size="8">Hint?</font></button>
-    <button class="no" id="colors" onclick="toggleColors();"><font size="6">Set New Colors</font></button><br />
+    <button class="no" id="set" onclick="set();"><font size="10">Set!</font></button><br />
+    <button class="no" id="deselectAll" onclick="toggleNoSelected();"><font size="4">Deselect all!</font></button><br />
+    <button class="no" id="hint" onclick="hint();"><font size="8">Hint?</font></button><br />
+    <button class="no" id="colors" onclick="toggleColors();"><font size="6">Change Colors</font></button><br />
     <div id="colorSelections" class="no">
-    <input type="radio" name="colors" id="colorClassic" onclick="changeColors('classic');">Classic colors</input><br />
-    <input type="radio" name="colors" id="colorBlind" onclick="changeColors('colorBlind');">Colorblind-friendly colors!</input><br />
-    <input type="radio" name="colors" id="colorJeri" onclick="changeColors('Jeri');">Chef's choice</input><br />
+    <input type="radio" name="colors" onclick="changeColors('classic');">Classic</input><br />
+    <input type="radio" name="colors" onclick="changeColors('colorBlind');">Colorblind-friendly</input><br />
+<!--    <input type="radio" name="colors" onclick="changeColors('monochrome');">Monochrome</input><br />-->
+    <input type="radio" name="colors" onclick="changeColors('Jeri');">Jeri's favorite</input><br />
 <!--    <input type="radio" name="colors" id="darkGrad" onclick="changeColors('darkGrad');">Light gradients</input><br />
     <input type="radio" name="colors" id="lightGrad" onclick="changeColors('lightGrad');">Dark gradients</input><br />
 -->    <!--<input type="radio" name="colors" id="colorUser" onclick="changeColors();">Pick your own</input><br />--></div>
