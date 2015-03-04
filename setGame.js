@@ -104,9 +104,9 @@ var shuffleDeck = function() {
 var color1 = "rgb(200,0,255)"; // purple
 var color2 = "rgb(20,200,255)"; // lightish blue
 var color3 = "rgb(220,200,0)"; // goldy yellow
-var gradyLight = "rgb(255,255,255)"; // white
-var gradyDark = "rgb(60,60,60)"; // dark gray
-var grady = gradyDark;
+//var gradyLight = "rgb(255,255,255)"; // white
+//var gradyDark = "rgb(60,60,60)"; // dark gray
+//var grady = gradyDark;
 
 var changeColors = function(whichScheme) { // !R maybe it's time to learn case/switch if javascript has?
     var dark = false;
@@ -117,7 +117,7 @@ var changeColors = function(whichScheme) { // !R maybe it's time to learn case/s
         color1 = "rgb(200,0,255)"; // purple
         color2 = "rgb(20,200,255)"; // lightish blue
         color3 = "rgb(220,200,0)"; // goldy yellow
-        grady = gradyDark;
+//        grady = gradyDark;
     } else if (whichScheme === "classic") { // the original Set color scheme
         if (dark) {
             removeClass("body","dark");
@@ -125,7 +125,7 @@ var changeColors = function(whichScheme) { // !R maybe it's time to learn case/s
         color1 = "rgb(200,0,255)"; // purple
         color2 = "rgb(20,255,0)"; // green
         color3 = "rgb(255,0,0)"; // red
-        grady = gradyDark;
+  //      grady = gradyDark;
     } else if (whichScheme === "colorBlind") { // a scheme for colorblindness
         if (dark) {
             removeClass("body","dark");
@@ -133,16 +133,16 @@ var changeColors = function(whichScheme) { // !R maybe it's time to learn case/s
         color1 = "rgb(230,159,0)"; // orange / pink
         color2 = "rgb(0,144,178)"; // blue / still blue
         color3 = "rgb(0,0,0)"; // ALLES IST SCHWARZ
-        grady = gradyLight;
+    //    grady = gradyLight;
     } else if (whichScheme === "monochrome") { // ooohhhh, this is hard to play; TIME TO LEARN HOW TO STRIPES
         grady = gradyLight;
         color1 = "rgb(200,200,200)"; // dark grey
         color2 = "rgb(135,135,135)"; // light grey
         color3 = "rgb(0,0,0)"; // white
     } else if (whichScheme === "darkGrad") {
-        grady = gradyDark;
+      //  grady = gradyDark;
     } else if (whichScheme === "lightGrad") {
-        grady = gradyLight;
+    //    grady = gradyLight;
     } else if (whichScheme === "dark") { // a dark color scheme
         addClass("body","dark") // body background #444
         // card background #000
@@ -177,19 +177,57 @@ var solid = function(card,ctx) {
 /** gradient() takes a card index and a canvas context. It unpacks the color from the
  *  card, sets a gradient, and then sets the shape style as the relevant color.
  */
-var gradient = function(card,ctx) {
-    var half = ctx.createLinearGradient(0,0,150,100);
+var stripe = function(card,ctx) {
+  //  var half = ctx.createLinearGradient(0,0,150,100);
     if (card.color === "color1") {
-        half.addColorStop(0,color1);
+    //    half.addColorStop(0,color1);
+        ctx.strokeStyle = color1;
     } else if (card.color === "color2") {
-        half.addColorStop(0,color2);
+      //  half.addColorStop(0,color2);
+        ctx.strokeStyle = color2;
     } else if (card.color === "color3") {
-        half.addColorStop(0,color3);
+   //     half.addColorStop(0,color3);
+        ctx.strokeStyle = color3;
     } else {
         errorMessage("gradient() else");
     }
-    half.addColorStop(1,grady);
-    ctx.fillStyle = half;
+
+    var x1 = 20;
+    var y1 = 0;
+    var x2 = 0;
+    var y2 = 20;
+
+    ctx.beginPath();
+    
+    while (x1 < 100) { // draw first 4 stripes until top right corner
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        x1 += 25;
+        y2 += 25;
+    }
+
+    x1 = 100;
+    y1 = 20;
+
+    while (y1 < 150) { // begin rest of the stripes
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        y1 += 25;
+        if (y2 < 150) { // when hit bottom left corner
+            y2 += 25;
+            if (y2 > 150) {
+                y2 = 150;
+                x2 = 20;
+            }
+        } else {
+            x2 += 25;
+        }
+    }
+
+    ctx.stroke();
+
+    //half.addColorStop(1,grady);
+    //ctx.fillStyle = half;
 };
 
 /** outline() takes a card index and a canvas context. It unpacks the color from the
@@ -217,7 +255,7 @@ var HEIGHT = 30; // global variable for card shape locations
  *  the fill type drawing function and the actual shape drawing function. Actually, there
  *  is already a built in canvas rectangle shape, so it just calls that.
  *  takes: card index, board context
- *  goes to: solid(), gradient(), outline()
+ *  goes to: solid(), stripe(), outline()
  *  then: draws rectangle x times
  */
 var drawRectangle = function(card,ctx) {
@@ -226,8 +264,8 @@ var drawRectangle = function(card,ctx) {
             solid(card,ctx);
             ctx.fillRect(X,Y,WIDTH,HEIGHT);
         } else if (card.fill === "fill2") {
-            gradient(card,ctx);
-            ctx.fillRect(X,Y,WIDTH,HEIGHT);
+            stripe(card,ctx);
+            ctx.strokeRect(X,Y,WIDTH,HEIGHT);
         } else if (card.fill === "fill3") {
             outline(card,ctx);
             ctx.strokeRect(X,Y,WIDTH,HEIGHT);
@@ -240,9 +278,9 @@ var drawRectangle = function(card,ctx) {
             ctx.fillRect(X,Y-25,WIDTH,HEIGHT);
             ctx.fillRect(X,Y+25,WIDTH,HEIGHT);
         } else if (card.fill === "fill2") {
-            gradient(card,ctx);
-            ctx.fillRect(X,Y-25,WIDTH,HEIGHT);
-            ctx.fillRect(X,Y+25,WIDTH,HEIGHT);
+            stripe(card,ctx);
+            ctx.strokeRect(X,Y-25,WIDTH,HEIGHT);
+            ctx.strokeRect(X,Y+25,WIDTH,HEIGHT);
         } else if (card.fill === "fill3") {
             outline(card,ctx);
             ctx.strokeRect(X,Y-25,WIDTH,HEIGHT);
@@ -257,10 +295,10 @@ var drawRectangle = function(card,ctx) {
             ctx.fillRect(X,Y,WIDTH,HEIGHT);
             ctx.fillRect(X,Y+50,WIDTH,HEIGHT);
         } else if (card.fill === "fill2") {
-            gradient(card,ctx);
-            ctx.fillRect(X,Y-50,WIDTH,HEIGHT);
-            ctx.fillRect(X,Y,WIDTH,HEIGHT);
-            ctx.fillRect(X,Y+50,WIDTH,HEIGHT);
+            stripe(card,ctx);
+            ctx.strokeRect(X,Y-50,WIDTH,HEIGHT);
+            ctx.strokeRect(X,Y,WIDTH,HEIGHT);
+            ctx.strokeRect(X,Y+50,WIDTH,HEIGHT);
         } else if (card.fill === "fill3") {
             outline(card,ctx);
             ctx.strokeRect(X,Y-50,WIDTH,HEIGHT);
@@ -285,10 +323,10 @@ var diamond = function(dx,dy,dwidth,dheight,ctx,card) {
     ctx.lineTo(dx+40,dy+dheight); // bottom point
     ctx.lineTo(dx,dy+15); // left point
     ctx.lineTo(dx+40,dy); // back to top
-    if (card.fill === "fill3") {
-        ctx.stroke();
-    } else {
+    if (card.fill === "fill1") {
         ctx.fill();
+    } else {
+        ctx.stroke();
     }
 };
 
@@ -297,7 +335,7 @@ var diamond = function(dx,dy,dwidth,dheight,ctx,card) {
  *  (x) from the card, and then it unpacks the fill type. Armed with those, it calls
  *  the fill type drawing function and the actual shape drawing function.
  *  takes: card index, board context
- *  goes to: solid(), gradient(), outline()
+ *  goes to: solid(), stripe(), outline()
  *  then goes to: diamond() x times
  */
 var drawDiamond = function(card,ctx) {
@@ -306,7 +344,7 @@ var drawDiamond = function(card,ctx) {
             solid(card,ctx);
             diamond(X,Y,WIDTH,HEIGHT,ctx,card);
         } else if (card.fill === "fill2") {
-            gradient(card,ctx);
+            stripe(card,ctx);
             diamond(X,Y,WIDTH,HEIGHT,ctx,card);        
 } else if (card.fill==="fill3") {
             outline(card,ctx);
@@ -320,7 +358,7 @@ var drawDiamond = function(card,ctx) {
             diamond(X,Y-25,WIDTH,HEIGHT,ctx,card);
             diamond(X,Y+25,WIDTH,HEIGHT,ctx,card);
         } else if (card.fill === "fill2") {
-            gradient(card,ctx);
+            stripe(card,ctx);
             diamond(X,Y-25,WIDTH,HEIGHT,ctx,card);
             diamond(X,Y+25,WIDTH,HEIGHT,ctx,card);
         } else if (card.fill === "fill3") {
@@ -337,7 +375,7 @@ var drawDiamond = function(card,ctx) {
             diamond(X,Y,WIDTH,HEIGHT,ctx,card);
             diamond(X,Y+50,WIDTH,HEIGHT,ctx,card);
         } else if (card.fill === "fill2") {
-            gradient(card,ctx);
+            stripe(card,ctx);
             diamond(X,Y-50,WIDTH,HEIGHT,ctx,card);
             diamond(X,Y,WIDTH,HEIGHT,ctx,card);
             diamond(X,Y+50,WIDTH,HEIGHT,ctx,card);
@@ -366,10 +404,10 @@ var semicircles = function(dx,dy,dwidth,dheight,ctx,card) {
         ctx.moveTo(dwidth+dx,dy+15);
         ctx.arc(dwidth-dx,dy+15,dheight-dx,0,Math.PI,true);
         ctx.lineTo(dwidth+dx,dy+15);
-    if (card.fill === "fill3") {
-        ctx.stroke();
-    } else {
+    if (card.fill === "fill1") {
         ctx.fill();
+    } else {
+        ctx.stroke();
     }
 };
 
@@ -378,7 +416,7 @@ var semicircles = function(dx,dy,dwidth,dheight,ctx,card) {
  *  (x) from the card, and then it unpacks the fill type. Armed with those, it calls
  *  the fill type drawing function and the actual shape drawing function.
  *  takes: card index, board context
- *  goes to: solid(), gradient(), outline()
+ *  goes to: solid(), stripe(), outline()
  *  then goes to: semicircles() x times
  */
 var drawSemicircles = function(card,ctx) {
@@ -387,7 +425,7 @@ var drawSemicircles = function(card,ctx) {
             solid(card,ctx);
             semicircles(X,Y,WIDTH,HEIGHT,ctx,card);
         } else if (card.fill === "fill2") {
-            gradient(card,ctx);
+            stripe(card,ctx);
             semicircles(X,Y,WIDTH,HEIGHT,ctx,card);        
         } else if (card.fill === "fill3") {
             outline(card,ctx);
@@ -401,7 +439,7 @@ var drawSemicircles = function(card,ctx) {
             semicircles(X,Y-25,WIDTH,HEIGHT,ctx,card);
             semicircles(X,Y+25,WIDTH,HEIGHT,ctx,card);
         } else if (card.fill === "fill2") {
-            gradient(card,ctx);
+            stripe(card,ctx);
             semicircles(X,Y-25,WIDTH,HEIGHT,ctx,card);
             semicircles(X,Y+25,WIDTH,HEIGHT,ctx,card);
         } else if (card.fill === "fill3") {
@@ -418,7 +456,7 @@ var drawSemicircles = function(card,ctx) {
             semicircles(X,Y,WIDTH,HEIGHT,ctx,card);
             semicircles(X,Y+50,WIDTH,HEIGHT,ctx,card);
         } else if (card.fill === "fill2") {
-            gradient(card,ctx);
+            stripe(card,ctx);
             semicircles(X,Y-50,WIDTH,HEIGHT,ctx,card);
             semicircles(X,Y,WIDTH,HEIGHT,ctx,card);
             semicircles(X,Y+50,WIDTH,HEIGHT,ctx,card);
@@ -503,7 +541,7 @@ var resetEveryone = function() {
 };
 
 var startNewGame = function() {
-    alert("Hey! I just wanted to warn you that I haven't worked on making the right sort of stripey card that the original game has. When you see a card that looks darker, that's the the third shade. It's a gradient.");
+    alert("Hey! I just want to warn you that my striped card is a little wonky: the stripes do not stay inside the shape but just inside the card instead. Enjoy the game!");
     shuffleDeck();
     resetEveryone();
     drawEveryone();
