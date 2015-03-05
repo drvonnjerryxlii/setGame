@@ -3,14 +3,12 @@
 - - -
 
 ### Original Set Game ###
-- [This game already exists online!][sg] 
-- I am working on this project for the learning experience.
-- You can play my version [here][myst].  
-  (Thanks to [Vinietskyzilla][vz] for writing every git command out for me to make this live version available!)
+- [This game already exists online!][sg]
+   - I am working on this project for the learning experience.
+- You can play my version [here][myst].
 
 [sg]: http://www.setgame.com/
 [myst]: https://drvonnjerryxlii.github.io/setGame/setGame.html
-[vz]: https://github.com/Vinietskyzilla
 
 ### Current Features ###
 - One player only
@@ -28,6 +26,5 @@
 - Multiplayer local? (listen to keyboard & each player has a button that means set?)
 - Multiplayer web?
 - Better color changing options
-   - Change just the gradients
    - Dark vs. light color schemes
    - Maybe little boxes to show colors instead of text description

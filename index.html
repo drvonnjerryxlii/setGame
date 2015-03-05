@@ -6,7 +6,7 @@
         <script type="text/javascript" src="setGame.js"></script>
         <link rel="stylesheet" type="text/css" href="setGame.css">
     </head>
-    <body>
+    <body id="body" class="light">
     <table>
         <tr>
             <td class="board">
@@ -38,20 +38,20 @@
     <button class="no" id="hint" onclick="hint();"><font size="8">Hint?</font></button><br />
     <button class="no" id="colors" onclick="toggleColors();"><font size="6">Change Colors</font></button><br />
     <div id="colorSelections" class="no">
-    <input type="radio" name="colors" onclick="changeColors('classic');">Classic</input><br />
-    <input type="radio" name="colors" onclick="changeColors('colorBlind');">Colorblind-friendly</input><br />
-<!--    <input type="radio" name="colors" onclick="changeColors('monochrome');">Monochrome</input><br />-->
-    <input type="radio" name="colors" onclick="changeColors('Jeri');">Jeri's favorite</input><br />
+    <input type="radio" name="colors" onclick="setColors(CLASSIC);">Classic</input><br />
+    <input type="radio" name="colors" onclick="setColors(COLORBLIND);">Colorblind-friendly</input><br />
+    <input type="radio" name="colors" onclick="setColors(JERI);">Jeri's favorite</input><br />
+    <input type="radio" name="colors" onclick="setColors(MONOCHROME);">Monochrome</input><br />
 <!--    <input type="radio" name="colors" id="darkGrad" onclick="changeColors('darkGrad');">Light gradients</input><br />
     <input type="radio" name="colors" id="lightGrad" onclick="changeColors('lightGrad');">Dark gradients</input><br />
 -->    <!--<input type="radio" name="colors" id="colorUser" onclick="changeColors();">Pick your own</input><br />--></div>
-    <p><canvas class="match" id="playerMatch" height="30" width="200"></canvas></p>
+    <p><canvas class="matchLight" id="playerMatch" height="30" width="200"></canvas></p>
             </td>
         </tr>
         <tr>
             <td class=" colspan="2" align="center">
-    <p><canvas class="match" id="message" height="20" width="400"></canvas></p>
-    <p><canvas class="match" id="availableMatch" height="20" width="400"></canvas></p>
+    <p><canvas class="matchLight" id="message" height="20" width="400"></canvas></p>
+<!--    <p><canvas class="matchLight" id="availableMatch" height="20" width="400"></canvas></p>-->
             </td>
         </tr>
     </table>

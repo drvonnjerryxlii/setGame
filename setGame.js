@@ -1,6 +1,6 @@
 // To any readers:
 // If you see a little mark like this: !Q !W !R !T !F -- they're mostly to make notes to myself easier to find.
-// I'm very open to feedback, especially about best/better coding practises as I am still very new to this.
+// I'm very open to feedback, especially about best/better coding practices as I am still very new to this.
 // Thanks! drvonnjerryxlii[AT]gmail.com -[AT] +@
 
 // Massive thanks to my supporters:
@@ -24,6 +24,10 @@ var HEIGHT = 30; // for card shape locations
 var WIDTH = 80; // for card shape locations
 var X = 10; // for card shape locations
 var Y = 60; // for card shape locations
+var DARK = false;
+var COLOR_1;
+var COLOR_2;
+var COLOR_3;
 
 // global variables for set & hint functions
 var HINT_COUNT = 0; // to store how deep into hint function
@@ -33,29 +37,42 @@ var AVAILABLE_SETS = []; // to store definite sets !W maybe I can combine availa
 var AVAILABLE_SETS_HINTS = []; // to store definite set hints
 var AVAILABLE_SETS_LOCATIONS = []; // to store definite set card indexes !W see 23 re: simplifying set checking functions / reduce params
 
-// global colors for drawing functions
-// var PURPLE = "rgb(200,0,255)"; // for default & classic
-// var LIGHT_BLUE = "rgb(20,200,255)"; // for default
-// var GOLD = "rgb(220,200,0)"; // for default
-// var GREEN = "rgb(20,255,0)"; // for classic
-// var RED = "rgb(255,0,0)"; // for classic
-// var ORANGE_PINK = "rgb(230,159,0)"; // for tritan/deutan/protan colorblind; regular color -> colorblind color
-// var BLUE_BLUE = "rgb(0,144,178)"; // for tritan/deutan/protan colorblind; regular color -> colorblind color
-// var BLACK_BLACK = "rgb(0,0,0)"; // for tritan/deutan/protan colorblind; regular color -> colorblind color
-// var DARK_GREY = "rgb(200,200,200)"; // for monochrome colorblind
-// var LIGHT_GREY = "rgb(135,135,135)"; // for monochrome colorblind
-// var WHITE = "rgb(0,0,0)"; // for monochrome colorblind
+// global colors for the drawing functions
+var PURPLE = "rgb(200,0,255)";
+var LIGHT_BLUE = "rgb(20,200,255)";
+var GOLD = "rgb(220,200,0)";
+var GREEN = "rgb(20,255,0)";
+var RED = "rgb(255,0,0)";
+var ORANGE_PINK = "rgb(230,159,0)";
+var BLUE_BLUE = "rgb(0,144,178)";
+var BLACK_BLACK = "rgb(0,0,0)";
+var DARK_GREY = "rgb(200,200,200)";
+var LIGHT_GREY = "rgb(135,135,135)";
+var WHITE = "rgb(255,255,255)";
 
-//var COLOR_SCHEMES = {
-//    Classic: PURPLE, GREEN, RED
-//    Colorblind: ORANGE_PINK, BLUE_BLUE, BLACK_BLACK
-//    Jeri: PURPLE, LIGHT_BLUE, GOLD
-//    Monochrome: BLACK_BLACK, DARK_GREY, LIGHT_GREY
-//};
 
-//var changeColors = function(whichScheme) {
-//
-//};
+/** colorScheme() constructs the color schemes. It takes three parameters, which are
+ *  assigned as properties. It also creates a function to set the properties as the
+ *  current color scheme.
+ */
+var colorScheme = function(color1,color2,color3) {
+    this.color1 = color1;
+    this.color2 = color2;
+    this.color3 = color3;
+    this.setColorScheme = function() {
+        COLOR_1 = this.color1;
+        COLOR_2 = this.color2;
+        COLOR_3 = this.color3;
+    };
+};
+
+
+// global color schemes
+var CLASSIC = new colorScheme(PURPLE,GREEN,RED);
+var COLORBLIND = new colorScheme(ORANGE_PINK,BLUE_BLUE,BLACK_BLACK); // for tritan/deutan/protan colorblind
+var JERI = new colorScheme(LIGHT_BLUE,PURPLE,GOLD);
+var MONOCHROME = new colorScheme(BLACK_BLACK,DARK_GREY,LIGHT_GREY); // for monochrome colorblind
+
 
 /** createCards(): does what it says on the tin.
  */
@@ -148,77 +165,16 @@ var shuffleDeck = function() {
 };
 
 
-// set default colors & gradients:
-// !! John said I am using variables for something that should just be data & to use objects instead. !W
-
-var color1 = "rgb(200,0,255)"; // purple
-var color2 = "rgb(20,200,255)"; // lightish blue
-var color3 = "rgb(220,200,0)"; // goldy yellow
-//var gradyLight = "rgb(255,255,255)"; // white
-//var gradyDark = "rgb(60,60,60)"; // dark gray
-//var grady = gradyDark;
-
-var changeColors = function(whichScheme) { // !R maybe it's time to learn case/switch if javascript has?
-    var dark = false;
-    if (whichScheme === "Jeri") { // my preferrored color scheme
-        if (dark) {
-            removeClass("body","dark");
-        }
-        color1 = "rgb(200,0,255)"; // purple
-        color2 = "rgb(20,200,255)"; // lightish blue
-        color3 = "rgb(220,200,0)"; // goldy yellow
-//        grady = gradyDark;
-    } else if (whichScheme === "classic") { // the original Set color scheme
-        if (dark) {
-            removeClass("body","dark");
-        }
-        color1 = "rgb(200,0,255)"; // purple
-        color2 = "rgb(20,255,0)"; // green
-        color3 = "rgb(255,0,0)"; // red
-  //      grady = gradyDark;
-    } else if (whichScheme === "colorBlind") { // a scheme for colorblindness
-        if (dark) {
-            removeClass("body","dark");
-        }
-        color1 = "rgb(230,159,0)"; // orange / pink
-        color2 = "rgb(0,144,178)"; // blue / still blue
-        color3 = "rgb(0,0,0)"; // ALLES IST SCHWARZ
-    //    grady = gradyLight;
-    } else if (whichScheme === "monochrome") { // ooohhhh, this is hard to play; TIME TO LEARN HOW TO STRIPES
-        grady = gradyLight;
-        color1 = "rgb(200,200,200)"; // dark grey
-        color2 = "rgb(135,135,135)"; // light grey
-        color3 = "rgb(0,0,0)"; // white
-    } else if (whichScheme === "darkGrad") {
-      //  grady = gradyDark;
-    } else if (whichScheme === "lightGrad") {
-    //    grady = gradyLight;
-    } else if (whichScheme === "dark") { // a dark color scheme
-        addClass("body","dark") // body background #444
-        // card background #000
-        // card grady = #200,200,200
-    } else { // the user can pick colors
-        color1 = prompt("Test color1: ");
-        color2 = prompt("Test color2: ");
-        color3 = prompt("Test color3: ");
-    }
-    toggleVisible("colors","no","yes");
-    toggleVisible("colorSelections","yes","no");
-    resetEveryone();
-    drawEveryone();
-};
-
-
 /** solid() takes a card index and a canvas context. It unpacks the color from the
  *  card and then sets the shape style as the relevant color.
  */
 var solid = function(card,ctx) {
     if (card.color === "color1") {
-        ctx.fillStyle = color1;
+        ctx.fillStyle = COLOR_1;
     } else if (card.color === "color2") {
-        ctx.fillStyle = color2;
+        ctx.fillStyle = COLOR_2;
     } else if (card.color === "color3") {
-        ctx.fillStyle = color3;
+        ctx.fillStyle = COLOR_3;
     } else {
         errorMessage("solid() else");
     }
@@ -229,16 +185,12 @@ var solid = function(card,ctx) {
  *  card, sets a gradient, and then sets the shape style as the relevant color.
  */
 var stripe = function(card,ctx) {
-  //  var half = ctx.createLinearGradient(0,0,150,100);
     if (card.color === "color1") {
-    //    half.addColorStop(0,color1);
-        ctx.strokeStyle = color1;
+        ctx.strokeStyle = COLOR_1;
     } else if (card.color === "color2") {
-      //  half.addColorStop(0,color2);
-        ctx.strokeStyle = color2;
+        ctx.strokeStyle = COLOR_2;
     } else if (card.color === "color3") {
-   //     half.addColorStop(0,color3);
-        ctx.strokeStyle = color3;
+        ctx.strokeStyle = COLOR_3;
     } else {
         errorMessage("gradient() else");
     }
@@ -276,9 +228,6 @@ var stripe = function(card,ctx) {
     }
 
     ctx.stroke();
-
-    //half.addColorStop(1,grady);
-    //ctx.fillStyle = half;
 };
 
 
@@ -287,11 +236,11 @@ var stripe = function(card,ctx) {
  */
 var outline = function(card,ctx) {
     if (card.color === "color1") {
-        ctx.strokeStyle = color1;
+        ctx.strokeStyle = COLOR_1;
     } else if (card.color === "color2") {
-        ctx.strokeStyle = color2;
+        ctx.strokeStyle = COLOR_2;
     } else if (card.color === "color3") {
-        ctx.strokeStyle = color3;
+        ctx.strokeStyle = COLOR_3;
     } else {
         errorMessage("outline() else");
     }
@@ -556,6 +505,11 @@ var drawEveryone = function() {
     var matchString = "Matches found: " + MATCH_COUNT + ".";
     var ctx = canvas.getContext('2d');
     ctx.font = "1em Verdana";
+    if (DARK) {
+        ctx.fillStyle = WHITE;
+    } else {
+        ctx.fillStyle = BLACK_BLACK;
+    }
     ctx.fillText(matchString, 10, 25, 180);
 };
 
@@ -570,8 +524,8 @@ var resetEveryone = function() {
     var canvas = document.getElementById("playerMatch"); // reset player match box
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, 200, 50);
-    canvas = document.getElementById("availableMatch"); // reset available match box
-    ctx = canvas.getContext('2d');
+//    canvas = document.getElementById("availableMatch"); // reset available match box
+//    ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, 400, 50);
     canvas = document.getElementById("message"); // reset general message box
     ctx = canvas.getContext('2d');
@@ -588,9 +542,27 @@ var resetEveryone = function() {
     AVAILABLE_SETS_LOCATIONS = [];
     AVAILABLE_SETS_HINTS = [];
 
-    if (DECK.length === 0) { // reward player for geting close to end of game :)
+    if (DECK.length === 0) { // reward player for getting close to end of game :)
         playerMessage("Hey, there are no cards left in the deck! You've almost won!");
     }
+};
+
+
+/** setColors() calls the setColorScheme() method on the given scheme it receives.
+ *  It then swaps the color options for the colors button and triggers the drawing
+ *  functions so the new colors will be displayed.
+ */
+var setColors = function(whichScheme) {
+//    if (DARK) {
+//        toggleVisible("body","dark","light");
+//    } else {
+//        toggleVisible("body","light","dark");
+//    }
+    whichScheme.setColorScheme();
+    toggleVisible("colors","no","yes");
+    toggleVisible("colorSelections","yes","no");
+    resetEveryone();
+    drawEveryone();
 };
 
 
@@ -599,6 +571,7 @@ var resetEveryone = function() {
  */
 var startNewGame = function() {
     shuffleDeck();
+    setColors(JERI);
     resetEveryone();
     drawEveryone();
     toggleVisible("startNewGame","yes","no");
@@ -614,15 +587,6 @@ var startNewGame = function() {
 var youWin = function() {
     alert("You won the game! I hope you enjoyed it. You are welcome to play again. :)");
     location.reload();
-};
-
-
-/** toggleColors() switches the visisbility of HTML element IDs: colors and
- *  colorSections.
- */
-var toggleColors = function() {
-    toggleVisible("colors","yes","no");
-    toggleVisible("colorSelections","no","yes");
 };
 
 
@@ -733,16 +697,50 @@ var toggleNoSelected = function() {
 var toggleHidden = function() {
     for (var i = 3; i > 0; --i) {
         var toggleMe = document.getElementById("table"+(12+i));
-        if (toggleMe.className === "hidden") {
-            removeClass(toggleMe,"hidden");
-            addClass(toggleMe,"notSelected");
-        } else if (toggleMe.className === "notSelected") {
-            removeClass(toggleMe,"notSelected");
-            addClass(toggleMe,"hidden");
-        } else {
-            errorMessage("toggleHidden!");
+        if (DARK) {
+            if (toggleMe.className === "dark") {
+                removeClass(toggleMe,"dark");
+                addClass(toggleMe,"notSelected");
+            } else if (toggleMe.className === "notSelected") {
+                removeClass(toggleMe,"notSelected");
+                addClass(toggleMe,"dark");
+            } else {
+                errorMessage("toggleHidden DARK");
+            }
+        }
+        else {
+            if (toggleMe.className === "hidden") {
+                removeClass(toggleMe,"hidden");
+                addClass(toggleMe,"notSelected");
+            } else if (toggleMe.className === "notSelected") {
+                removeClass(toggleMe,"notSelected");
+                addClass(toggleMe,"hidden");
+            } else {
+                errorMessage("toggleHidden !DARK");
+            }
         }
     }
+};
+
+var toggleDark = function() {
+    for (var i = 18; i > 0; --i) {
+        var toggleMe = document.getElementById("table"+i);
+        if (DARK && toggleMe.className === "hidden") {
+            removeClass(toggleMe,"hidden");
+            addClass(toggleMe,"dark");
+        } else if (!DARK && toggleMe.className === "dark") {
+            removeClass(toggleMe,"hidden");
+            addClass(toggleMe,"dark");
+        };
+    };
+    toggleMe = document.getElementById("message");
+    if (DARK && toggleMe.className === "matchLight") {
+        removeClass(toggleMe,"matchLight");
+        addClass(toggleMe,"matchDark");
+    } else if (!DARK && toggleMe.className === "matchDark") {
+        removeClass(toggleMe,"matchDark");
+        addClass(toggleMe,"matchLight");
+    };
 };
 
 
@@ -753,6 +751,15 @@ var toggleVisible = function(id, classToRemove, classToAdd) {
     var makeChangeTo = document.getElementById(id);
     removeClass(makeChangeTo,classToRemove);
     addClass(makeChangeTo,classToAdd);
+};
+
+
+/** toggleColors() switches the visibility of HTML element IDs: colors and
+ *  colorSelections.
+ */
+var toggleColors = function() {
+    toggleVisible("colors","yes","no");
+    toggleVisible("colorSelections","no","yes");
 };
 
 
