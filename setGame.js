@@ -7,7 +7,7 @@
 // To Vinietskyzilla for introducing me to canvas & to some great canvas drawing tutorials. And for writing out literally every git command I needed to throw into shell to get the live version up and running! https://drvonnjerryxlii.github.io/setGame
 // To Davidfstr for showing me how to do something key-indexy as in the card generator code. And for repeated encouragement and testing of colors!
 // To John for introducing me to the wonder and magic of brutal code reviews and in so doing teaching me a bunch of better coding practices, like ALLCAPSing global variables and adding documentation-y notes for both readers & my future self.
-// To Sergey also for repeated encouragement.
+// To Sergey -- also for repeated encouragement.
 // To Kim, Debs, Tamar, Jen, and countless other ladies for inspiring me with their awesomeness.
 // And to Sergey (again) and Chris-- also inspiration. Not also ladies.
 
@@ -37,25 +37,31 @@ var AVAILABLE_SETS = []; // to store definite sets !W maybe I can combine availa
 var AVAILABLE_SETS_HINTS = []; // to store definite set hints
 var AVAILABLE_SETS_LOCATIONS = []; // to store definite set card indexes !W see 23 re: simplifying set checking functions / reduce params
 
-// global colors for the drawing functions
-var PURPLE = "rgb(200,0,255)";
-var LIGHT_BLUE = "rgb(20,200,255)";
+// global colors for the drawing functions (in vaguely rainbow order)
+var RED = "rgb(255,0,0)";
+var WARM_RED = "rgb(204,0,0)";
+var ORANGE_PINK = "rgb(230,159,0)";
+var YELLOW = "rgb(220,220,0)";
 var GOLD = "rgb(220,200,0)";
 var GREEN = "rgb(20,255,0)";
-var RED = "rgb(255,0,0)";
-var ORANGE_PINK = "rgb(230,159,0)";
+var COOL_GREEN = "rgb(0,204,102)";
+var LIGHT_BLUE = "rgb(20,200,255)";
 var BLUE_BLUE = "rgb(0,144,178)";
+var BLUE = "rgb(0,102,204)";
+var PURPLE = "rgb(200,0,255)";
+var PINK = "rgb(204,0,204)";
 var BLACK_BLACK = "rgb(0,0,0)";
 var DARK_GREY = "rgb(200,200,200)";
 var LIGHT_GREY = "rgb(135,135,135)";
 var WHITE = "rgb(255,255,255)";
 
-
 /** colorScheme() constructs the color schemes. It takes three parameters, which are
- *  assigned as properties. It also creates a function to set the properties as the
- *  current color scheme.
+ *  assigned as properties. It also creates a function method to set the properties
+ *  as the current color scheme and a function method to draw color blocks for quick
+ *  visual choices between the different color schemes.
  */
-var colorScheme = function(color1,color2,color3) {
+var colorScheme = function(id,color1,color2,color3) {
+    this.elementID = id;
     this.color1 = color1;
     this.color2 = color2;
     this.color3 = color3;
@@ -64,14 +70,38 @@ var colorScheme = function(color1,color2,color3) {
         COLOR_2 = this.color2;
         COLOR_3 = this.color3;
     };
+    this.drawColors = function() {
+        var canvas = document.getElementById(this.elementID);
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = this.color1;
+        ctx.fillRect(0,0,20,20);
+        ctx.fillStyle = this.color2;
+        ctx.fillRect(22,0,20,20);
+        ctx.fillStyle = this.color3;
+        ctx.fillRect(44,0,20,20);
+    };
 };
 
 
 // global color schemes
-var CLASSIC = new colorScheme(PURPLE,GREEN,RED);
-var COLORBLIND = new colorScheme(ORANGE_PINK,BLUE_BLUE,BLACK_BLACK); // for tritan/deutan/protan colorblind
-var JERI = new colorScheme(LIGHT_BLUE,PURPLE,GOLD);
-var MONOCHROME = new colorScheme(BLACK_BLACK,DARK_GREY,LIGHT_GREY); // for monochrome colorblind
+var CLASSIC = new colorScheme("classic",PURPLE,GREEN,RED);
+var COLORBLIND = new colorScheme("colorblind",ORANGE_PINK,BLUE_BLUE,BLACK_BLACK); // for tritan/deutan/protan colorblind
+var COOL = new colorScheme("cool",PINK,COOL_GREEN,BLUE);
+var DEFAULT = new colorScheme("default",LIGHT_BLUE,PURPLE,GOLD);
+var MONOCHROME = new colorScheme("monochrome",BLACK_BLACK,DARK_GREY,LIGHT_GREY); // for monochrome colorblind
+var WARM = new colorScheme("warm",WARM_RED,PINK,YELLOW);
+
+
+/** drawColorBlocks() calls each color scheme's drawColors() method. 
+ */
+var drawColorBlocks = function() {
+    CLASSIC.drawColors();
+    COLORBLIND.drawColors();
+    COOL.drawColors();
+    DEFAULT.drawColors();
+    MONOCHROME.drawColors();
+    WARM.drawColors();
+};
 
 
 /** createCards(): does what it says on the tin.
@@ -549,7 +579,7 @@ var resetEveryone = function() {
 
 
 /** setColors() calls the setColorScheme() method on the given scheme it receives.
- *  It then swaps the color options for the colors button and triggers the drawing
+ *  It then swaps the color options for the options buttons and triggers the drawing
  *  functions so the new colors will be displayed.
  */
 var setColors = function(whichScheme) {
@@ -559,6 +589,9 @@ var setColors = function(whichScheme) {
 //        toggleVisible("body","light","dark");
 //    }
     whichScheme.setColorScheme();
+    toggleVisible("set","no","yes");
+    toggleVisible("hint","no","yes");
+    toggleVisible("deselectAll","no","yes");
     toggleVisible("colors","no","yes");
     toggleVisible("colorSelections","yes","no");
     resetEveryone();
@@ -571,7 +604,8 @@ var setColors = function(whichScheme) {
  */
 var startNewGame = function() {
     shuffleDeck();
-    setColors(JERI);
+    setColors(DEFAULT);
+    drawColorBlocks();
     resetEveryone();
     drawEveryone();
     toggleVisible("startNewGame","yes","no");
@@ -758,6 +792,9 @@ var toggleVisible = function(id, classToRemove, classToAdd) {
  *  colorSelections.
  */
 var toggleColors = function() {
+    toggleVisible("set","yes","no");
+    toggleVisible("hint","yes","no");
+    toggleVisible("deselectAll","yes","no");
     toggleVisible("colors","yes","no");
     toggleVisible("colorSelections","no","yes");
 };
