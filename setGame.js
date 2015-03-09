@@ -39,7 +39,8 @@ var AVAILABLE_SETS_LOCATIONS = []; // to store definite set card indexes !W see 
 
 // global colors for the drawing functions (in vaguely rainbow order)
 var RED = "rgb(255,0,0)";
-var WARM_RED = "rgb(204,0,0)";
+var WARM_RED = "rgb(153,0,0)";
+var ORANGE = "rgb(255,153,51)";
 var ORANGE_PINK = "rgb(230,159,0)";
 var YELLOW = "rgb(220,220,0)";
 var GOLD = "rgb(220,200,0)";
@@ -49,10 +50,10 @@ var LIGHT_BLUE = "rgb(20,200,255)";
 var BLUE_BLUE = "rgb(0,144,178)";
 var BLUE = "rgb(0,102,204)";
 var PURPLE = "rgb(200,0,255)";
-var PINK = "rgb(204,0,204)";
+var COOL_PURPLE = "rgb(102,0,102)";
 var BLACK_BLACK = "rgb(0,0,0)";
-var DARK_GREY = "rgb(200,200,200)";
-var LIGHT_GREY = "rgb(135,135,135)";
+var LIGHT_GREY = "rgb(200,200,200)";
+var DARK_GREY = "rgb(135,135,135)";
 var WHITE = "rgb(255,255,255)";
 
 /** colorScheme() constructs the color schemes. It takes three parameters, which are
@@ -74,32 +75,32 @@ var colorScheme = function(id,color1,color2,color3) {
         var canvas = document.getElementById(this.elementID);
         var ctx = canvas.getContext('2d');
         ctx.fillStyle = this.color1;
-        ctx.fillRect(0,0,20,20);
+        ctx.fillRect(5,0,25,25);
         ctx.fillStyle = this.color2;
-        ctx.fillRect(22,0,20,20);
+        ctx.fillRect(35,0,25,25);
         ctx.fillStyle = this.color3;
-        ctx.fillRect(44,0,20,20);
+        ctx.fillRect(65,0,25,25);
     };
 };
 
 
 // global color schemes
+var BLACK_WHITE = new colorScheme("blackWhite",BLACK_BLACK,DARK_GREY,LIGHT_GREY); // for monochrome colorblind
 var CLASSIC = new colorScheme("classic",PURPLE,GREEN,RED);
-var COLORBLIND = new colorScheme("colorblind",ORANGE_PINK,BLUE_BLUE,BLACK_BLACK); // for tritan/deutan/protan colorblind
-var COOL = new colorScheme("cool",PINK,COOL_GREEN,BLUE);
+var COOL = new colorScheme("cool",COOL_PURPLE,COOL_GREEN,BLUE);
 var DEFAULT = new colorScheme("default",LIGHT_BLUE,PURPLE,GOLD);
-var MONOCHROME = new colorScheme("monochrome",BLACK_BLACK,DARK_GREY,LIGHT_GREY); // for monochrome colorblind
-var WARM = new colorScheme("warm",WARM_RED,PINK,YELLOW);
+var HIGH_CONTRAST = new colorScheme("highContrast",ORANGE_PINK,BLUE_BLUE,BLACK_BLACK); // for tritan/deutan/protan colorblind
+var WARM = new colorScheme("warm",WARM_RED,ORANGE,YELLOW);
 
 
 /** drawColorBlocks() calls each color scheme's drawColors() method. 
  */
 var drawColorBlocks = function() {
+    BLACK_WHITE.drawColors();
     CLASSIC.drawColors();
-    COLORBLIND.drawColors();
     COOL.drawColors();
     DEFAULT.drawColors();
-    MONOCHROME.drawColors();
+    HIGH_CONTRAST.drawColors();
     WARM.drawColors();
 };
 
