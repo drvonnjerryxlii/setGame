@@ -14,7 +14,7 @@ canvas.notSelected { border: 1px solid black; padding: 2px; }
 canvas.playerSelected { border: 3px dotted orange; padding: 0px; }
 td.board { width: 650px; min-width: 650px; max-width: 650px; } /*Q! why does the internet recommend setting max width to 100%? */
 td.options { width: 200px; text-align: center; }
-button.colors { background-color: #fff; padding: 0px; height: 36px; width: 98px; }
+button.colors { background-color: #fff; padding: 0px; height: 50px; width: 98px; }
 button.start { position: absolute; left: 50%; top: 50%; }
 .yes { visibility: visible; }
 .no { visibility: hidden; }
